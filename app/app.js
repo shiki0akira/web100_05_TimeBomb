@@ -50,6 +50,9 @@
     checkId: 0,
   };
 
+  // 這次打開頁面之後玩到第幾輪（重新整理才歸零），送進 GA4 當黏著度指標
+  var roundNumber = 0;
+
   var screen = 'setup';
   var wakeLock = null;
   var audio = { ctx: null, tickId: 0 };
@@ -618,6 +621,23 @@
     requestWakeLock();
     ensureAudio();
     scheduleTick();
+
+    /*
+     * 事件送在這裡，不是綁在「開始遊戲」那顆按鈕上——「再玩一輪」走的是同一個
+     * startRound()，綁在按鈕上的話第二輪之後就完全看不到了。
+     *
+     * `round_number` 是這次打開頁面之後的第幾輪（重新整理才歸零）。這個遊戲沒有房間、
+     * 沒有玩家名單，能不能黏住人就只看**一群人願不願意連玩好幾輪**——
+     * round_number > 1 的比例是這個專案唯一真正重要的指標。
+     */
+    roundNumber += 1;
+    track('bomb_game_started', {
+      round_number: roundNumber,
+      groups: settings.groups.join(','),
+      deck_size: deck.length,
+      min_seconds: settings.min,
+      max_seconds: settings.max,
+    });
   }
 
   function stopRound() {
@@ -714,6 +734,7 @@
     if (navigator.vibrate) navigator.vibrate([120, 60, 240]);
 
     track('bomb_round_ended', {
+      round_number: roundNumber,
       duration_seconds: Math.round(elapsed / 1000),
       tasks_done: round.done,
       // 跳過率高通常代表題目對這群人太難或太尷尬，是換題庫的訊號
@@ -775,12 +796,6 @@
   el.startGame.addEventListener('click', function () {
     pushPlayState();
     startRound(true);
-    track('bomb_game_started', {
-      groups: settings.groups.join(','),
-      deck_size: deck.length,
-      min_seconds: settings.min,
-      max_seconds: settings.max,
-    });
   });
 
   el.passButton.addEventListener('click', function () {

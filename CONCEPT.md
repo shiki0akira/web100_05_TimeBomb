@@ -1,6 +1,6 @@
 # 定時炸彈——小組破冰遊戲設計文件
 
-> 狀態：**開發中**（2026-08-28 建立）。這份文件記玩法與所有設計決策，實作細節在各檔案的註解裡。
+> 狀態：**已上線**（2026-08-29）。這份文件記玩法與所有設計決策，實作細節在各檔案的註解裡。
 > 系列整體架構（子路徑策略、網址結構、共用 design tokens、repo 命名）在 `web100_00_Homepage/ARCHITECTURE.md`。
 > 題庫本身的內容準則與主持人的替換建議在 `QUESTIONS.md`。
 
@@ -150,6 +150,16 @@ Web Audio 有自動播放限制，`AudioContext` 一定要在使用者手勢裡�
 兩顆按鈕的選取狀態與時間區間存在 `localStorage` 的 `web100-bomb-settings`，自訂題目存 `web100-bomb-custom`。同一個小組每週玩，不用每次重設。
 
 深淺色（`web100-theme`）與語言（`web100-lang` / `web100_lang` cookie）沿用系列共用的 key，不另外發明。
+
+### 2.13 `/bomb/` 的語言判斷在瀏覽器裡做，不是伺服器 302
+
+02～04 的 Worker 會讀 cookie 與 `Accept-Language`，對沒帶語言的網址回 302。這個專案的 Worker 沒有 `main`（純靜態資源），所以改由 `app/redirect.html` 在瀏覽器裡判斷再 `location.replace`。
+
+**這其實比 302 多看了一個訊號。** `ARCHITECTURE.md` 第 6 節的判斷順序是 localStorage → cookie → 預設，而 localStorage 伺服器根本讀不到——302 的版本只能從 cookie 開始。
+
+代價是那一頁回的是 200 而不是 3xx，所以它掛了 `noindex, follow` + canonical 指向預設語言頁，Google 不會把它當成重複內容。
+
+> ⚠️ `/web100-launch-check` 的 `check-live.sh` 會在這裡報一個 **FAIL「不帶語言的路徑沒有轉址」**。那條檢查寫的是 02～04 的 302 樣態，對這個專案是預期中的差異，不用修。
 
 ---
 
