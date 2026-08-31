@@ -994,7 +994,7 @@ main {
 }
 
 /*
- * 「完成」佔滿整條；「跳過此題」平常不在畫面上，同一題卡滿 15 秒才從右邊滑進來
+ * 「完成」佔滿整條；「換一題」平常不在畫面上，同一題停滿 5 秒才從右邊滑進來
  * （app.js 的 armStuckHint 掛上 .show-skip）。
  *
  * 一開始就擺兩顆的話，等於一上來就告訴每個人「你可以不做」——那顆按鈕會從
@@ -1107,7 +1107,7 @@ main {
   text-align: center;
 }
 
-/* 同一題卡超過 20 秒才換成這行（app.js 的 armStuckHint）。
+/* 同一題停滿 5 秒才換成這行（app.js 的 armStuckHint）。
    只加重顏色與字重，不改字級——字級一變，整頁的高度會跟著跳一下 */
 .play-hint.is-stuck {
   color: var(--color-accent-text);

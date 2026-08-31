@@ -26,9 +26,9 @@
 
 其他幾個小地方：
 
-- 「完成」與「跳過此題」走同一個 `advance()`，按下的當下會**先確認一次引爆時刻**再換題。少了這一步，在 200ms 的檢查間隔裡按下去會先換到下一題、下一個瞬間才爆，看起來像爆在錯的人手上
+- 「完成」與「換一題」走同一個 `advance()`，按下的當下會**先確認一次引爆時刻**再換題。少了這一步，在 200ms 的檢查間隔裡按下去會先換到下一題、下一個瞬間才爆，看起來像爆在錯的人手上
 - `AudioContext` 綁在「開始遊戲」那一下建立／`resume()`，不是頁面載入時——自動播放限制要求它在使用者手勢裡。**沒有音效開關**，要安靜就關手機音量（CONCEPT.md 2.8）
-- 「跳過此題」平常是收合 + `disabled` 的，同一題卡滿 **15 秒**才由 `armStuckHint()` 掛上 `.show-skip` 滑進來（提示文字同時換掉），換題時 `setStuck(false)` 重置。一開始就擺兩顆的話，那顆鍵會從救生圈變成捷徑（CONCEPT.md 2.7）
+- 「換一題」平常是收合 + `disabled` 的，同一題停滿 **5 秒**才由 `armStuckHint()` 掛上 `.show-skip` 滑進來（提示文字同時換掉），換題時 `setStuck(false)` 重置。一開始就擺兩顆的話，那顆鍵會從救生圈變成捷徑（CONCEPT.md 2.7）。⚠️ CSS 的 class 名還是 `.pass-skip` / `.show-skip`，跟顯示文案脫鉤，改文案時不用動它們
 - 「再玩一輪」牌堆**接著發、不重洗**；重洗的話剛出過的題目可能馬上又回來
 
 ## 返回鍵
@@ -74,7 +74,8 @@
 - 導覽列在 420px 以下才隱藏標題（量過的臨界點，別往上調）；語言下拉在 520px 以下縮到 124px，那條規則**一定要放在基礎 `select` 規則之後**
 - 按鈕的立體／壓扁語言、disabled 的配色都照 `ARCHITECTURE.md` 第 7 節，不要改成疊 `opacity`
 - 跳過鍵的滑入動畫用 flex + `max-width`，不是 `grid-template-columns` 的 `fr` 內插：`fr` 的下限是 min-content，收到 `0fr` 還是文字寬度，壓成 `minmax(0, 0fr)` 又會讓德文的「Überspringen」展開後被切掉
-- ⚠️ `.pass-row .pass-bar` 那條**一定要 `:not(.pass-skip)`**。跳過鍵也帶著 `.pass-bar`，不排除的話它的特異性會蓋掉 `.pass-skip` 的 `flex: 0 0 auto`，兩顆就長成一樣寬
+- ⚠️ `.pass-row .pass-bar` 那條**一定要 `:not(.pass-skip)`**。「換一題」也帶著 `.pass-bar`，不排除的話它的特異性會蓋掉 `.pass-skip` 的 `flex: 0 0 auto`，兩顆就長成一樣寬
+- ⚠️ **`skipButton` 的文案要短**：那顆鍵是 `flex: 0 0 auto` + `nowrap`，寬度由文字決定，「完成」只能撿剩下的。德文一度是「Andere Aufgabe」，375px 下量出來 154px vs 主鍵 131px，主次直接顛倒（改成「Wechseln」後是 105 vs 180）。**新增或修改語言時，這一條要在 375px 實測**：單字或 3～4 個中日韓字為上限
 
 ## GA4
 

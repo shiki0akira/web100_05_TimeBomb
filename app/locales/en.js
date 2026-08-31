@@ -52,9 +52,9 @@ export default {
 
   // ---------- play ----------
   passButton: 'Done! Pass it on',
-  skipButton: 'Skip this one',
+  skipButton: 'Another one',
   playHint: 'Do the thing on screen, tap Done, then hand the phone over.',
-  stuckHint: 'Stuck? Tap “Skip this one” and move on — don’t let the bomb stop with you.',
+  stuckHint: 'Stuck? Tap “Another one” and move on — don’t let the bomb stop with you.',
   bombAlt: 'Bomb',
 
   // ---------- boom ----------

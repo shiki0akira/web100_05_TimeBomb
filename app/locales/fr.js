@@ -53,9 +53,9 @@ export default {
 
   // ---------- en jeu ----------
   passButton: 'Terminé ! Au suivant',
-  skipButton: 'Passer',
+  skipButton: 'Autre défi',
   playHint: 'Fais ce qui est affiché, appuie sur Terminé, puis passe le téléphone.',
-  stuckHint: 'Tu bloques ? Appuie sur « Passer » — ne garde pas la bombe.',
+  stuckHint: 'Tu bloques ? Appuie sur « Autre défi » — ne garde pas la bombe.',
   bombAlt: 'Bombe',
 
   // ---------- explosion ----------

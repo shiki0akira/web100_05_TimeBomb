@@ -123,8 +123,20 @@ async function main() {
   console.log(`\nbuild ok → dist${BASE_PATH}/ （${LANGS.length} 種語言 × ${PAGES.length} 頁）`);
 }
 
+/*
+ * 先清掉舊的產出，免得刪掉語言或資源之後還留著孤兒檔案。
+ *
+ * `npm run dev` 會在 `wrangler dev` 還開著的時候重跑 build，這時 Windows 會鎖住 dist
+ * 而刪不掉（EBUSY）。那種情況下所有檔案本來就會被逐一覆寫，警告一聲繼續就好，
+ * 不需要讓整個 build 失敗——02～04 也是這樣處理的。
+ */
 async function cleanDist() {
-  await rm(dist, { recursive: true, force: true });
+  try {
+    await rm(dist, { recursive: true, force: true });
+  } catch (error) {
+    if (error.code !== 'EBUSY' && error.code !== 'EPERM') throw error;
+    console.warn('  (dist 正在被使用，改成直接覆寫，沒有清掉舊檔)');
+  }
 }
 
 function readPartial(name) {

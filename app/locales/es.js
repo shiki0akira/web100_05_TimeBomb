@@ -53,9 +53,9 @@ export default {
 
   // ---------- en juego ----------
   passButton: '¡Hecho! Pásalo',
-  skipButton: 'Saltar esta',
+  skipButton: 'Otra prueba',
   playHint: 'Haz lo que pone en pantalla, pulsa Hecho y pasa el móvil.',
-  stuckHint: '¿Te has atascado? Pulsa «Saltar esta» y sigue: no te quedes con la bomba.',
+  stuckHint: '¿Te has atascado? Pulsa «Otra prueba» y sigue: no te quedes con la bomba.',
   bombAlt: 'Bomba',
 
   // ---------- explosión ----------

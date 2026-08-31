@@ -53,9 +53,9 @@ export default {
 
   // ---------- im Spiel ----------
   passButton: 'Fertig! Weitergeben',
-  skipButton: 'Überspringen',
+  skipButton: 'Wechseln',
   playHint: 'Mach, was auf dem Bildschirm steht, tippe auf Fertig und gib das Handy weiter.',
-  stuckHint: 'Hängst du fest? Tipp auf „Überspringen“ — lass die Bombe nicht bei dir liegen.',
+  stuckHint: 'Hängst du fest? Tipp auf „Wechseln“ — lass die Bombe nicht bei dir liegen.',
   bombAlt: 'Bombe',
 
   // ---------- Explosion ----------
